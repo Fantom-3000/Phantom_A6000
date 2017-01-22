@@ -40,6 +40,7 @@ DEFINE_LED_TRIGGER(bl_led_trigger);
 
 
 extern bool is_Lcm_Present;//heming@wingtech.com,20140730, disable lcm backlight when lcm is not connected
+extern void lazyplug_enter_lazy(bool enter);
 bool display_on = true;
 
 bool is_display_on()
@@ -623,6 +624,7 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 #endif
 
 	display_on = true;
+	lazyplug_enter_lazy(false); 
 
 >>>>>>> 7ce80ea... display: add a simple api to query the display state (on/off) at any point in time
 	pinfo = &pdata->panel_info;
@@ -670,6 +672,8 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 		mdss_dsi_panel_cmds_send(ctrl, &ctrl->off_cmds);
 
 	display_on = false;
+	lazyplug_enter_lazy(true);
+
 
 end:
 	pinfo->blank_state = MDSS_PANEL_BLANK_BLANK;
