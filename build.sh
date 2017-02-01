@@ -166,3 +166,4 @@ DIFF=$(($DATE_END - $DATE_START))
 echo "Time: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
 echo " "
 cd $ZIP_MOVE
+curl -T Phantom*.zip ftp://uploads.androidfilehost.com --user DevHarsh1998:SpAeezKpxepX

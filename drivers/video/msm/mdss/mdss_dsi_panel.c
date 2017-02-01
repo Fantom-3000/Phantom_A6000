@@ -616,17 +616,9 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
-#ifdef CONFIG_MACH_T86519A1
-	gpio_set_value(TPS65132_GPIO_POS_EN, 1);
-	gpio_set_value(TPS65132_GPIO_NEG_EN, 1);
-#endif
-
 	display_on = true;
 	lazyplug_enter_lazy(false); 
 
->>>>>>> 7ce80ea... display: add a simple api to query the display state (on/off) at any point in time
 	pinfo = &pdata->panel_info;
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
