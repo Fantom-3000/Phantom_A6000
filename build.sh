@@ -12,26 +12,26 @@ clear
 
 # Resources
 THREAD="-j$(grep -c ^processor /proc/cpuinfo)"
-DEFCONFIG="cyanogenmod_wt88047_defconfig"
-KERNEL="Image"
+DEFCONFIG="lineageos-wt86518_defconfig"
+KERNEL="zImage"
 
 #Hyper Kernel Details
-BASE_VER="Hyper"
-VER="-v1-$(date +"%Y-%m-%d"-%H%M)-"
+BASE_VER="Phantom"
+VER="-r6-$(date +"%Y-%m-%d"-%H%M)-"
 Hyper_VER="$BASE_VER$VER$TC"
 
 # Vars
 export ARCH=arm
 export SUBARCH=arm
-export KBUILD_BUILD_USER=chaubeyprateek
-export KBUILD_BUILD_HOST=server
-export LOCALVERSION="-Hyper™"
+export KBUILD_BUILD_USER=dev-harsh1998
+export KBUILD_BUILD_HOST=Dummy-Server
+export LOCALVERSION="-PhAnToM™"
 
 # Paths
 KERNEL_DIR=`pwd`
-RESOURCE_DIR="/home/android/kernel/wt88047"
+RESOURCE_DIR="/home/harshit/kernel/lenovo"
 ANYKERNEL_DIR="$RESOURCE_DIR/hyper"
-TOOLCHAIN_DIR="/home/android/kernel/tc"
+TOOLCHAIN_DIR="/home/harshit/kernel/tc"
 REPACK_DIR="$ANYKERNEL_DIR"
 PATCH_DIR="$ANYKERNEL_DIR/patch"
 MODULES_DIR="$ANYKERNEL_DIR/modules"
@@ -46,14 +46,14 @@ function make_kernel {
 		cp -vr $ZIMAGE_DIR/$KERNEL $REPACK_DIR/zImage
 }
 
-function make_modules {
-		cd $KERNEL_DIR
-		make modules $THREAD
-		find $KERNEL_DIR -name '*.ko' -exec cp {} $MODULES_DIR/ \;
-		cd $MODULES_DIR
-        $STRIP --strip-unneeded *.ko
-        cd $KERNEL_DIR
-}
+#function make_modules {
+#		cd $KERNEL_DIR
+#		make modules $THREAD
+#		find $KERNEL_DIR -name '*.ko' -exec cp {} $MODULES_DIR/ \;
+#		cd $MODULES_DIR
+#       $STRIP --strip-unneeded *.ko
+#      cd $KERNEL_DIR
+#}
 
 function make_dtb {
 		$KERNEL_DIR/dtbToolCM -2 -o $KERNEL_DIR/arch/arm/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
@@ -77,11 +77,11 @@ echo "--------------------------------------------------------"
 echo -e "${restore}"
 
 echo -e "${cyan}"
-while read -p "Plese Select Desired Toolchain for compiling Hyper Kernel
+while read -p "Plese Select Desired Toolchain for compiling Phantom Kernel
 
 SABERMOD-4.9---->(1)
 
-UBERTC-4.9---->(2)
+Phantom-4.9---->(2)
 
 
 " echoice
@@ -105,8 +105,8 @@ case "$echoice" in
 		break
 		;;
 	2 )
-		export CROSS_COMPILE=$TOOLCHAIN_DIR/uber-4.9/bin/arm-eabi-
-		export LD_LIBRARY_PATH=$TOOLCHAIN_DIR/uber-4.9/lib/
+		export CROSS_COMPILE=$TOOLCHAIN_DIR/Phantom-4.9/bin/arm-eabi-
+		export LD_LIBRARY_PATH=$TOOLCHAIN_DIR/Phantom-4.9/lib/
 		STRIP=$TOOLCHAIN_DIR/uber-4.9/bin/arm-eabi-
 		TC="UB"
 		rm -rf $MODULES_DIR/*
@@ -118,7 +118,7 @@ case "$echoice" in
 		cd $KERNEL_DIR
 		make clean && make mrproper
 		echo "cleaned directory"
-		echo "Compiling Hyper Kernel Using UBERTC-4.9 Toolchain"
+		echo "Compiling Phantom Kernel Using Phantom-4.9 Toolchain"
 		break
 		;;
 
@@ -132,7 +132,7 @@ done
 echo -e "${restore}"
 
 echo
-while read -p "Do you want to start Building Hyper Kernel ?
+while read -p "Do you want to start Building Phantom Kernel ?
 
 Yes Or No ? 
 
@@ -143,7 +143,6 @@ case "$dchoice" in
 	y|Y )
 		make_kernel
 		make_dtb
-		make_modules
 		make_zip
 		break
 		;;
@@ -167,5 +166,3 @@ DIFF=$(($DATE_END - $DATE_START))
 echo "Time: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
 echo " "
 cd $ZIP_MOVE
-ls
-ftp uploads.androidfilehost.com
